@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>منوی کافه اِسپرسو</title>
+    <meta
+      name="description"
+      content="منوی دیجیتال کافه اسپرسو. بهترین قهوه، لاته، اسپرسو و کیک‌های تازه را تجربه کنید."
+    />
+    <meta
+      name="keywords"
+      content="کافه, قهوه, اسپرسو, لاته, منوی کافه, خرید قهوه, کیک تازه"
+    />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#2b1a0e" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "CafeOrCoffeeShop",
+        "name": "کافه اِسپرسو",
+        "image": "https://espressocafe.ir/images/espresso_cafe_logo.svg",
+        "url": "https://espressocafe.ir",
+        "telephone": "021-88001234",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "تبریز",
+          "addressCountry": "IR"
+        },
+        "servesCuisine": "Coffee, Cakes, Snacks"
+      }
+    </script>
+
+    <style>
+      @font-face {
+        font-family: "Peyda";
+        src: url("./assets/fonts/Peyda-Regular.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: var(--font-fa);
+      }
+
+      :root {
+        --cream: #f9f4ed;
+        --parchment: #ede4d6;
+        --roast: #2b1a0e;
+        --espresso: #4a2c14;
+        --caramel: #c47b2b;
+        --gold: #e8a94a;
+        --steam: #f5efe6;
+        --text: #1e130a;
+        --muted: #8a6a4a;
+        --card-bg: #fffdf9;
+        --border: #ddd0bc;
+        --radius: 16px;
+        --shadow: 0 4px 24px rgba(43, 26, 14, 0.09);
+        --shadow-lg: 0 12px 48px rgba(43, 26, 14, 0.16);
+        --font-fa: "Peyda", "Inter", sans-serif;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--cream);
+        color: var(--text);
+        min-height: 100vh;
+        overflow-x: hidden;
+        font-family: "Peyda";
+      }
+
+      .hero {
+        background: var(--roast);
+        padding: 40px 20px 28px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+            ellipse 80% 60% at 50% 120%,
+            rgba(196, 123, 43, 0.35) 0%,
+            transparent 70%
+          ),
+          radial-gradient(
+            ellipse 40% 40% at 80% -10%,
+            rgba(232, 169, 74, 0.18) 0%,
+            transparent 60%
+          );
+        pointer-events: none;
+      }
+
+      .hero-logo {
+        width: 64px;
+        height: 64px;
+        background: var(--caramel);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        margin: 0 auto 16px;
+        box-shadow: 0 0 0 6px rgba(196, 123, 43, 0.25);
+        position: relative;
+      }
+
+      .hero h1 {
+        font-size: clamp(24px, 6vw, 36px);
+        font-weight: 900;
+        color: #fff8ee;
+        letter-spacing: -0.5px;
+        position: relative;
+      }
+
+      .hero .slogan {
+        color: var(--gold);
+        font-size: 14px;
+        font-weight: 300;
+        margin-top: 6px;
+        letter-spacing: 1px;
+        position: relative;
+      }
+
+      .stories-wrap {
+        background: var(--roast);
+        padding: 20px;
+        overflow-x: auto;
+        display: flex;
+        gap: 15px;
+        scrollbar-width: none;
+      }
+
+      .stories-wrap::-webkit-scrollbar {
+        display: none;
+      }
+
+      .story-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+
+      .story-circle {
+        width: 68px;
+        height: 68px;
+        border-radius: 50%;
+        padding: 3px;
+        background: linear-gradient(45deg, var(--caramel), var(--gold));
+      }
+
+      .story-circle img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--roast);
+      }
+
+      .story-title {
+        color: #fff;
+        font-size: 11px;
+        font-weight: 500;
+      }
+
+      .story-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 9999;
+        display: none;
+        flex-direction: column;
+      }
+
+      .story-modal.active {
+        display: flex;
+      }
+
+      .story-modal-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        color: #fff;
+        font-size: 30px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        z-index: 10000;
+      }
+
+      .story-modal-img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .search-wrap {
+        background: var(--roast);
+        padding: 20px;
+      }
+
+      .search-box {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1.5px solid rgba(255, 255, 255, 0.15);
+        border-radius: 50px;
+        padding: 10px 18px;
+        backdrop-filter: blur(4px);
+      }
+
+      .search-box svg {
+        color: rgba(255, 255, 255, 0.5);
+        flex-shrink: 0;
+      }
+
+      .search-box input {
+        background: transparent;
+        border: none;
+        outline: none;
+        color: #fff;
+        font-size: 14px;
+        width: 100%;
+        direction: rtl;
+      }
+
+      .search-box input::placeholder {
+        color: rgba(255, 255, 255, 0.4);
+      }
+
+      .tabs-wrap {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: var(--parchment);
+        border-bottom: 1.5px solid var(--border);
+        box-shadow: 0 2px 12px rgba(43, 26, 14, 0.07);
+      }
+
+      .tabs {
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+        padding: 10px 16px;
+        scrollbar-width: none;
+      }
+
+      .tabs::-webkit-scrollbar {
+        display: none;
+      }
+
+      .tab {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 7px 16px;
+        border-radius: 50px;
+        border: 1.5px solid var(--border);
+        background: transparent;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+      }
+
+      .tab:hover {
+        border-color: var(--caramel);
+        color: var(--espresso);
+      }
+
+      .tab.active {
+        background: var(--espresso);
+        border-color: var(--espresso);
+        color: #fff;
+        box-shadow: 0 4px 12px rgba(74, 44, 20, 0.3);
+      }
+
+      .results-bar {
+        padding: 14px 20px 4px;
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 400;
+      }
+
+      .section-title {
+        padding: 20px 20px 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .section-title .icon {
+        font-size: 20px;
+      }
+
+      .section-title h2 {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--roast);
+      }
+
+      .section-title .count {
+        font-size: 12px;
+        color: var(--muted);
+        background: var(--parchment);
+        padding: 2px 8px;
+        border-radius: 20px;
+        border: 1px solid var(--border);
+      }
+
+      .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 16px;
+        padding: 0 16px 20px;
+      }
+
+      @media (max-width: 600px) {
+        .products-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .card {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        border: 1.5px solid var(--border);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .card:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .card.unavailable {
+        opacity: 0.58;
+      }
+
+      .card-img {
+        width: 100%;
+        aspect-ratio: 4/3;
+        object-fit: cover;
+        display: block;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card-img-wrap {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card-img-wrap img {
+        width: 100%;
+        aspect-ratio: 4/3;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.4s ease;
+      }
+
+      .card:hover .card-img-wrap img {
+        transform: scale(1.04);
+      }
+
+      .card-img-placeholder {
+        width: 100%;
+        aspect-ratio: 4/3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 36px;
+      }
+
+      .unavailable-badge {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        font-weight: 700;
+        color: #fff;
+        letter-spacing: 1px;
+      }
+
+      .gallery-container {
+        width: 100%;
+        aspect-ratio: 4/3;
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        position: relative;
+      }
+
+      .gallery-container::-webkit-scrollbar {
+        display: none;
+      }
+
+      .gallery-img {
+        flex: 0 0 100%;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        scroll-snap-align: start;
+      }
+
+      .gallery-dots {
+        position: absolute;
+        bottom: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 4px;
+      }
+
+      .gallery-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.5);
+      }
+
+      .gallery-dot.active {
+        background: #fff;
+      }
+
+      .card-body {
+        padding: 14px 16px 16px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .card-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .card-name {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--roast);
+        line-height: 1.3;
+      }
+
+      .card-name-en {
+        font-size: 11px;
+        color: var(--muted);
+        font-weight: 400;
+        direction: ltr;
+        text-align: right;
+        display: block;
+        margin-top: 2px;
+      }
+
+      .card-price {
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--caramel);
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+
+      .card-desc {
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.6;
+        font-weight: 300;
+      }
+
+      .badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+
+      .badge {
+        font-size: 11px;
+        font-weight: 600;
+        padding: 3px 9px;
+        border-radius: 20px;
+        line-height: 1.4;
+      }
+
+      .options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .option-btn {
+        font-size: 12px;
+        padding: 4px 12px;
+        border-radius: 20px;
+        border: 1.5px solid var(--border);
+        background: var(--cream);
+        color: var(--espresso);
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+
+      .option-btn:hover,
+      .option-btn.selected {
+        border-color: var(--caramel);
+        background: var(--caramel);
+        color: #fff;
+      }
+
+      .card-meta {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 11px;
+        color: #aaa;
+        border-top: 1px solid var(--border);
+        padding-top: 8px;
+        margin-top: auto;
+        flex-wrap: wrap;
+      }
+
+      .recommendation-section {
+        background: var(--parchment);
+        padding: 20px;
+        margin-top: 30px;
+        border-radius: 24px 24px 0 0;
+        display: none;
+      }
+
+      .rec-title {
+        font-size: 18px;
+        color: var(--roast);
+        margin-bottom: 15px;
+        font-weight: 700;
+      }
+
+      .rec-scroll {
+        display: flex;
+        gap: 15px;
+        overflow-x: auto;
+        scrollbar-width: none;
+        padding-bottom: 10px;
+      }
+
+      .rec-scroll::-webkit-scrollbar {
+        display: none;
+      }
+
+      .rec-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        min-width: 140px;
+        flex-shrink: 0;
+        overflow: hidden;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+
+      .rec-card:hover {
+        transform: translateY(-2px);
+      }
+
+      .rec-img {
+        width: 100%;
+        height: 100px;
+        object-fit: cover;
+      }
+
+      .rec-info {
+        padding: 10px;
+      }
+
+      .rec-name {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--roast);
+      }
+
+      .rec-price {
+        font-size: 12px;
+        color: var(--caramel);
+        margin-top: 4px;
+      }
+
+      .no-results {
+        text-align: center;
+        padding: 60px 20px;
+        color: var(--muted);
+      }
+
+      .no-results .emoji {
+        font-size: 48px;
+        margin-bottom: 12px;
+      }
+      .no-results p {
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      .footer {
+        background: var(--roast);
+        color: rgba(255, 248, 238, 0.75);
+        padding: 32px 20px 40px;
+        margin-top: 24px;
+      }
+
+      .footer-inner {
+        max-width: 640px;
+        margin: 0 auto;
+        display: grid;
+        gap: 24px;
+      }
+
+      .footer-name {
+        font-size: 20px;
+        font-weight: 900;
+        color: #fff8ee;
+      }
+
+      .footer-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        font-weight: 400;
+      }
+
+      .footer-row svg {
+        color: var(--gold);
+        flex-shrink: 0;
+      }
+
+      .footer-row a {
+        color: rgba(255, 248, 238, 0.8);
+        text-decoration: none;
+      }
+
+      .footer-row a:hover {
+        color: var(--gold);
+      }
+
+      .footer-hours {
+        background: rgba(255, 255, 255, 0.06);
+        border-radius: 12px;
+        padding: 14px 16px;
+        display: grid;
+        gap: 8px;
+      }
+
+      .footer-hours h3 {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--gold);
+        margin-bottom: 4px;
+      }
+
+      .hour-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
+      }
+
+      .hour-row span:first-child {
+        color: rgba(255, 248, 238, 0.6);
+      }
+      .hour-row span:last-child {
+        color: rgba(255, 248, 238, 0.9);
+        font-weight: 500;
+      }
+
+      .wifi-box {
+        background: rgba(232, 169, 74, 0.12);
+        border: 1px solid rgba(232, 169, 74, 0.25);
+        border-radius: 12px;
+        padding: 12px 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .wifi-box svg {
+        color: var(--gold);
+        flex-shrink: 0;
+      }
+
+      .wifi-box .label {
+        font-size: 12px;
+        color: rgba(255, 248, 238, 0.55);
+      }
+      .wifi-box .value {
+        font-size: 14px;
+        color: #fff8ee;
+        font-weight: 600;
+        direction: ltr;
+      }
+
+      .social-links {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .social-btn {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 16px;
+        border-radius: 50px;
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: rgba(255, 248, 238, 0.85);
+        text-decoration: none;
+        font-size: 13px;
+        transition: background 0.2s;
+      }
+
+      .social-btn:hover {
+        background: rgba(255, 255, 255, 0.14);
+      }
+
+      #scroll-top {
+        position: fixed;
+        bottom: 24px;
+        left: 20px;
+        width: 44px;
+        height: 44px;
+        background: var(--espresso);
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 16px rgba(43, 26, 14, 0.3);
+        opacity: 0;
+        transform: translateY(10px);
+        transition: all 0.25s;
+        z-index: 200;
+      }
+
+      #scroll-top.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      #menu-root {
+        max-width: 860px;
+        margin: 0 auto;
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .card {
+        animation: fadeUp 0.3s ease both;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="hero" id="top">
+      <div class="hero-logo" id="hero-logo">☕</div>
+      <h1 id="cafe-name">کافه</h1>
+      <p class="slogan" id="cafe-slogan"></p>
+    </header>
+
+    <div class="search-wrap">
+      <div class="search-box">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <circle cx="11" cy="11" r="8" />
+          <path d="m21 21-4.35-4.35" />
+        </svg>
+        <input
+          type="text"
+          id="search-input"
+          placeholder="جستجو در منو…"
+          autocomplete="off"
+        />
+      </div>
+    </div>
+
+    <div class="stories-wrap" id="stories-container"></div>
+
+    <div class="story-modal" id="story-modal">
+      <button class="story-modal-close" onclick="closeStory()">×</button>
+      <img src="" class="story-modal-img" id="story-modal-img" />
+    </div>
+
+    <div class="tabs-wrap">
+      <div class="tabs" id="tabs-container"></div>
+    </div>
+
+    <div id="menu-root">
+      <div id="results-bar" class="results-bar"></div>
+      <div id="menu-content"></div>
+      <div class="recommendation-section" id="recommendations">
+        <h3 class="rec-title">پیشنهاد هوشمند برای شما</h3>
+        <div class="rec-scroll" id="rec-container"></div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-inner" id="footer-inner"></div>
+    </footer>
+
+    <button
+      id="scroll-top"
+      onclick="window.scrollTo({top:0,behavior:'smooth'})"
+      aria-label="برگشت به بالا"
+    >
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+      >
+        <polyline points="18 15 12 9 6 15" />
+      </svg>
+    </button>
+
+    <script src="data.js"></script>
+
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("/sw.js");
+        });
+      }
+
+      let activeCategory = "all";
+      let searchQuery = "";
+
+      function initHero() {
+        if (typeof CAFE_INFO !== "undefined") {
+          document.title = CAFE_INFO.name + " — منو";
+          document.getElementById("cafe-name").textContent = CAFE_INFO.name;
+          document.getElementById("cafe-slogan").textContent =
+            CAFE_INFO.slogan || "";
+
+          if (CAFE_INFO.logo) {
+            const img = new Image();
+            img.onload = () => {
+              const logoEl = document.getElementById("hero-logo");
+              logoEl.innerHTML = "";
+              logoEl.style.background = "transparent";
+              logoEl.style.boxShadow = "none";
+              img.style.cssText =
+                "width:64px;height:64px;border-radius:50%;object-fit:cover;";
+              logoEl.appendChild(img);
+            };
+            img.src = CAFE_INFO.logo;
+          }
+        }
+      }
+
+      function renderStories() {
+        const container = document.getElementById("stories-container");
+        if (typeof STORIES === "undefined" || !STORIES || !STORIES.length) {
+          container.style.display = "none";
+          return;
+        }
+        let html = "";
+        STORIES.forEach((s) => {
+          html += `<div class="story-item" onclick="openStory('${s.content_image}')">
+              <div class="story-circle" style="background: linear-gradient(45deg, ${s.color}, var(--caramel))">
+                <img src="${s.image}" onerror="this.src='images/espresso.jpg'">
+              </div>
+              <span class="story-title">${s.title}</span>
+            </div>`;
+        });
+        container.innerHTML = html;
+      }
+
+      function openStory(imgSrc) {
+        document.getElementById("story-modal-img").src = imgSrc;
+        document.getElementById("story-modal").classList.add("active");
+      }
+
+      function closeStory() {
+        document.getElementById("story-modal").classList.remove("active");
+        document.getElementById("story-modal-img").src = "";
+      }
+
+      function buildTabs() {
+        const container = document.getElementById("tabs-container");
+        container.innerHTML = "";
+        if (
+          typeof PRODUCTS === "undefined" ||
+          typeof CATEGORIES === "undefined"
+        )
+          return;
+
+        const usedCats = new Set(PRODUCTS.map((p) => p.category));
+        const visibleCats = CATEGORIES.filter(
+          (c) => c.id === "all" || usedCats.has(c.id)
+        );
+
+        visibleCats
+          .sort((a, b) => a.order - b.order)
+          .forEach((cat) => {
+            const btn = document.createElement("button");
+            btn.className =
+              "tab" + (cat.id === activeCategory ? " active" : "");
+            btn.dataset.id = cat.id;
+            btn.innerHTML = `<span>${cat.icon}</span>${cat.label}`;
+            btn.onclick = () => {
+              activeCategory = cat.id;
+              searchQuery = "";
+              document.getElementById("search-input").value = "";
+              document
+                .querySelectorAll(".tab")
+                .forEach((t) => t.classList.remove("active"));
+              btn.classList.add("active");
+              renderMenu();
+              btn.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest",
+                inline: "center",
+              });
+            };
+            container.appendChild(btn);
+          });
+      }
+
+      function buildGalleryHTML(p) {
+        if (!p.gallery || p.gallery.length <= 1) {
+          return p.image
+            ? `<img src="${p.image}" alt="${
+                p.name
+              }" class="card-img" loading="lazy" onerror="this.parentElement.innerHTML=fallbackImg('${
+                p.image_placeholder || "#C47B2B"
+              }','${iconForCategory(p.category)}')">`
+            : fallbackImg(
+                p.image_placeholder || "#C47B2B",
+                iconForCategory(p.category)
+              );
+        }
+        let imgs = p.gallery
+          .map((img) => `<img src="${img}" class="gallery-img" loading="lazy">`)
+          .join("");
+        let dots = p.gallery
+          .map(
+            (_, i) =>
+              `<div class="gallery-dot ${i === 0 ? "active" : ""}"></div>`
+          )
+          .join("");
+        return `<div class="gallery-container" onscroll="handleGalleryScroll(this)">${imgs}<div class="gallery-dots">${dots}</div></div>`;
+      }
+
+      function handleGalleryScroll(container) {
+        const scrollLeft = container.scrollLeft;
+        const width = container.clientWidth;
+        const index = Math.round(Math.abs(scrollLeft) / width);
+        const dots = container.querySelectorAll(".gallery-dot");
+        dots.forEach((dot, i) => {
+          dot.classList.toggle("active", i === index);
+        });
+      }
+
+      function badgesHTML(badges) {
+        if (!badges || !badges.length || typeof BADGE_LABELS === "undefined")
+          return "";
+        return (
+          '<div class="badges">' +
+          badges
+            .map((b) => {
+              const info = BADGE_LABELS[b];
+              if (!info) return "";
+              return `<span class="badge" style="color:${info.color};background:${info.bg}">${info.label}</span>`;
+            })
+            .join("") +
+          "</div>"
+        );
+      }
+
+      function optionsHTML(options, basePrice, cardId) {
+        if (!options || !options.length) return "";
+        const btns = options
+          .map(
+            (opt, i) =>
+              `<button class="option-btn${i === 0 ? " selected" : ""}" 
+             data-price="${opt.price}" 
+             data-card="${cardId}"
+             onclick="selectOption(this, ${cardId})">${opt.label}</button>`
+          )
+          .join("");
+        return `<div class="options">${btns}</div>`;
+      }
+
+      function selectOption(btn, cardId) {
+        const card = document.querySelector(`[data-card-id="${cardId}"]`);
+        if (!card) return;
+        card
+          .querySelectorAll(".option-btn")
+          .forEach((b) => b.classList.remove("selected"));
+        btn.classList.add("selected");
+        const priceEl = card.querySelector(".card-price");
+        if (priceEl && typeof formatPrice !== "undefined")
+          priceEl.textContent = formatPrice(Number(btn.dataset.price));
+      }
+
+      function buildCard(p, delay) {
+        const unavailableOverlay =
+          p.available === false
+            ? '<div class="unavailable-badge">ناموجود</div>'
+            : "";
+        const metaItems = [];
+        if (p.calories) metaItems.push(`🔥 ${p.calories} کالری`);
+        if (p.allergens && p.allergens.length)
+          metaItems.push(`⚠️ ${p.allergens.join("، ")}`);
+        const metaHTML = metaItems.length
+          ? `<div class="card-meta">${metaItems.join(
+              '<span style="color:var(--border)">|</span>'
+            )}</div>`
+          : "";
+
+        return `
+    <div class="card${
+      p.available === false ? " unavailable" : ""
+    }" data-card-id="${p.id}" style="animation-delay:${delay}ms">
+      <div class="card-img-wrap">
+        ${buildGalleryHTML(p)}
+        ${unavailableOverlay}
+      </div>
+      <div class="card-body">
+        <div class="card-top">
+          <div>
+            <div class="card-name">${p.name}</div>
+            ${p.name_en ? `<span class="card-name-en">${p.name_en}</span>` : ""}
+          </div>
+          <div class="card-price">${
+            typeof formatPrice !== "undefined" ? formatPrice(p.price) : p.price
+          }</div>
+        </div>
+        ${p.description ? `<div class="card-desc">${p.description}</div>` : ""}
+        ${badgesHTML(p.badges)}
+        ${optionsHTML(p.options, p.price, p.id)}
+        ${metaHTML}
+      </div>
+    </div>`;
+      }
+
+      function fallbackImg(color, icon) {
+        return `<div class="card-img-placeholder" style="background:${color}">${icon}</div>`;
+      }
+
+      function iconForCategory(catId) {
+        if (typeof CATEGORIES === "undefined") return "🍽️";
+        const cat = CATEGORIES.find((c) => c.id === catId);
+        return cat ? cat.icon : "🍽️";
+      }
+
+      function renderMenu() {
+        if (typeof PRODUCTS === "undefined") return;
+        const content = document.getElementById("menu-content");
+        const resultsBar = document.getElementById("results-bar");
+        let products;
+
+        if (searchQuery) {
+          products = searchProducts(searchQuery);
+          resultsBar.textContent = `${products.length} نتیجه برای "${searchQuery}"`;
+        } else {
+          products = getProductsByCategory(activeCategory);
+          resultsBar.textContent = "";
+        }
+
+        if (!products.length) {
+          content.innerHTML = `<div class="no-results"><div class="emoji">☕</div><p>آیتمی پیدا نشد</p></div>`;
+          document.getElementById("recommendations").style.display = "none";
+          return;
+        }
+
+        if (searchQuery || activeCategory !== "all") {
+          const cards = products.map((p, i) => buildCard(p, i * 40)).join("");
+          content.innerHTML = `<div class="products-grid">${cards}</div>`;
+        } else {
+          const usedCats = [...new Set(products.map((p) => p.category))];
+          const ordered = CATEGORIES.filter(
+            (c) => c.id !== "all" && usedCats.includes(c.id)
+          );
+          let html = "";
+          let globalIdx = 0;
+          ordered.forEach((cat) => {
+            const catProducts = products.filter((p) => p.category === cat.id);
+            const cards = catProducts
+              .map((p) => buildCard(p, globalIdx++ * 30))
+              .join("");
+            html += `
+        <div id="cat-${cat.id}" class="section-title">
+          <span class="icon">${cat.icon}</span>
+          <h2>${cat.label}</h2>
+          <span class="count">${catProducts.length}</span>
+        </div>
+        <div class="products-grid">${cards}</div>`;
+          });
+          content.innerHTML = html;
+        }
+        renderRecommendations();
+      }
+
+      function renderRecommendations() {
+        const container = document.getElementById("rec-container");
+        const recSection = document.getElementById("recommendations");
+        if (typeof PRODUCTS === "undefined") return;
+
+        let allRecIds = [];
+        let products = searchQuery
+          ? searchProducts(searchQuery)
+          : getProductsByCategory(activeCategory);
+        if (activeCategory === "all") products = PRODUCTS.slice(0, 5);
+
+        products.forEach((p) => {
+          if (p.recommends) allRecIds.push(...p.recommends);
+        });
+
+        allRecIds = [...new Set(allRecIds)];
+        const recProducts = PRODUCTS.filter((p) =>
+          allRecIds.includes(p.id)
+        ).slice(0, 6);
+
+        if (!recProducts.length) {
+          recSection.style.display = "none";
+          return;
+        }
+
+        recSection.style.display = "block";
+        container.innerHTML = recProducts
+          .map(
+            (p) => `
+          <div class="rec-card" onclick="document.getElementById('search-input').value='${
+            p.name
+          }'; document.getElementById('search-input').dispatchEvent(new Event('input')); window.scrollTo(0,0);">
+            <img src="${
+              p.image
+            }" class="rec-img" onerror="this.src='images/espresso.jpg'">
+            <div class="rec-info">
+              <div class="rec-name">${p.name}</div>
+              <div class="rec-price">${
+                typeof formatPrice !== "undefined"
+                  ? formatPrice(p.price)
+                  : p.price
+              }</div>
+            </div>
+          </div>
+        `
+          )
+          .join("");
+      }
+
+      function buildFooter() {
+        if (typeof CAFE_INFO === "undefined") return;
+        const el = document.getElementById("footer-inner");
+        const c = CAFE_INFO;
+
+        const phones = Array.isArray(c.phone) ? c.phone : [c.phone];
+        const phoneLinks = phones
+          .map((ph) => `<a href="tel:${ph.replace(/\D/g, "")}">${ph}</a>`)
+          .join("  |  ");
+
+        const hoursRows = Object.entries(c.working_hours || {})
+          .map(([k, v]) => {
+            const labels = {
+              weekdays: "شنبه تا چهارشنبه",
+              weekends: "پنجشنبه و جمعه",
+              holidays: "تعطیلات رسمی",
+            };
+            return `<div class="hour-row"><span>${
+              labels[k] || k
+            }</span><span>${v}</span></div>`;
+          })
+          .join("");
+
+        el.innerHTML = `
+    <div>
+      <div class="footer-name">${c.name}</div>
+      ${
+        c.slogan
+          ? `<div style="font-size:13px;color:var(--gold);margin-top:4px">${c.slogan}</div>`
+          : ""
+      }
+    </div>
+
+    <div class="footer-row">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <span>${c.address}</span>
+    </div>
+
+    <div class="footer-row">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.02 1.18 2 2 0 012 .02h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92v2z"/></svg>
+      <span>${phoneLinks}</span>
+    </div>
+
+    ${
+      c.mobile
+        ? `
+    <div class="footer-row">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+      <a href="tel:${c.mobile.replace(/\D/g, "")}">${c.mobile}</a>
+    </div>`
+        : ""
+    }
+
+    ${
+      hoursRows
+        ? `
+    <div class="footer-hours">
+      <h3>ساعات کاری</h3>
+      ${hoursRows}
+    </div>`
+        : ""
+    }
+
+    ${
+      c.wifi_name
+        ? `
+    <div class="wifi-box">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0114.08 0M1.42 9a16 16 0 0121.16 0M8.53 16.11a6 6 0 016.95 0M12 20h.01"/></svg>
+      <div>
+        <div class="label">رمز وای‌فای</div>
+        <div class="value">${c.wifi_password}</div>
+        <div class="label" style="margin-top:2px">${c.wifi_name}</div>
+      </div>
+    </div>`
+        : ""
+    }
+
+    <div class="social-links">
+      ${
+        c.social_links?.instagram
+          ? `
+      <a class="social-btn" href="${c.social_links.instagram}" target="_blank" rel="noopener">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/></svg>
+        اینستاگرام
+      </a>`
+          : ""
+      }
+      ${
+        c.social_links?.telegram
+          ? `
+      <a class="social-btn" href="${c.social_links.telegram}" target="_blank" rel="noopener">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4 20-7z"/><path d="M22 2 11 13"/></svg>
+        تلگرام
+      </a>`
+          : ""
+      }
+      ${
+        c.social_links?.whatsapp
+          ? `
+      <a class="social-btn" href="${c.social_links.whatsapp}" target="_blank" rel="noopener">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+        واتس‌اپ
+      </a>`
+          : ""
+      }
+    </div>
+
+    <div style="font-size:11px;color:rgba(255,248,238,.3);text-align:center;padding-top:8px">
+      © ${new Date().getFullYear()} ${c.name} — همه حقوق محفوظ است
+    </div>`;
+      }
+
+      document.getElementById("search-input").addEventListener("input", (e) => {
+        searchQuery = e.target.value.trim();
+        document.querySelectorAll(".tab").forEach((t) => {
+          t.classList.toggle(
+            "active",
+            t.dataset.id === (searchQuery ? "all" : activeCategory)
+          );
+        });
+        renderMenu();
+      });
+
+      window.addEventListener("scroll", () => {
+        document
+          .getElementById("scroll-top")
+          .classList.toggle("visible", window.scrollY > 300);
+      });
+
+      initHero();
+      renderStories();
+      buildTabs();
+      renderMenu();
+      buildFooter();
+    </script>
+  </body>
+</html>

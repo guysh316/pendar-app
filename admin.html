@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>پنل مدیریت کافه</title>
+    <script src="data.js"></script>
+    <style>
+      @font-face {
+        font-family: "Peyda";
+        src: url("./assets/fonts/Peyda-Regular.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Peyda", "Inter", sans-serif;
+      }
+
+      :root {
+        --cream: #f9f4ed;
+        --parchment: #ede4d6;
+        --roast: #2b1a0e;
+        --espresso: #4a2c14;
+        --caramel: #c47b2b;
+        --gold: #e8a94a;
+        --text: #1e130a;
+        --muted: #8a6a4a;
+        --card-bg: #fffdf9;
+        --border: #ddd0bc;
+        --radius: 16px;
+        --shadow: 0 4px 24px rgba(43, 26, 14, 0.09);
+        --success: #4a7c59;
+        --danger: #a32d2d;
+      }
+
+      body {
+        background: var(--cream);
+        color: var(--text);
+        min-height: 100vh;
+        padding: clamp(10px, 2vw, 40px);
+      }
+
+      #login-screen {
+        position: fixed;
+        inset: 0;
+        background: var(--roast);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        padding: 15px;
+      }
+
+      .login-box {
+        background: var(--card-bg);
+        padding: clamp(20px, 5vw, 40px);
+        border-radius: var(--radius);
+        width: 100%;
+        max-width: 400px;
+        box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4);
+        text-align: center;
+        border: 1.5px solid var(--border);
+      }
+
+      .login-box h2 {
+        margin-bottom: 20px;
+        color: var(--roast);
+        font-size: clamp(20px, 4vw, 24px);
+      }
+
+      .admin-container {
+        max-width: 2560px;
+        margin: 0 auto;
+        display: none;
+      }
+
+      .header {
+        background: var(--roast);
+        color: #fff;
+        padding: clamp(15px, 3vw, 30px);
+        border-radius: var(--radius);
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+
+      .header h1 {
+        font-size: clamp(18px, 4vw, 28px);
+      }
+
+      .header-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .dashboard-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+
+      .stat-card {
+        background: var(--card-bg);
+        padding: 20px;
+        border-radius: var(--radius);
+        border: 1.5px solid var(--border);
+        box-shadow: var(--shadow);
+        text-align: center;
+      }
+
+      .stat-val {
+        font-size: clamp(24px, 4vw, 32px);
+        font-weight: 700;
+        color: var(--caramel);
+        margin-bottom: 5px;
+      }
+
+      .stat-label {
+        font-size: 14px;
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      .chart-container {
+        background: var(--card-bg);
+        padding: 20px;
+        border-radius: var(--radius);
+        border: 1.5px solid var(--border);
+        box-shadow: var(--shadow);
+        margin-bottom: 20px;
+      }
+
+      .bar-chart {
+        display: flex;
+        align-items: flex-end;
+        height: 180px;
+        gap: 10px;
+        padding-top: 20px;
+        border-bottom: 2px solid var(--border);
+      }
+
+      .bar {
+        flex: 1;
+        background: var(--caramel);
+        border-radius: 6px 6px 0 0;
+        position: relative;
+        transition: height 0.5s;
+        min-width: 15px;
+      }
+
+      .bar span {
+        position: absolute;
+        bottom: -25px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 12px;
+        color: var(--roast);
+        font-weight: 600;
+      }
+
+      .main-layout {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      @media (min-width: 992px) {
+        .main-layout {
+          grid-template-columns: 380px 1fr;
+        }
+      }
+
+      @media (min-width: 1400px) {
+        .main-layout {
+          grid-template-columns: 450px 1fr;
+        }
+      }
+
+      @media (min-width: 1920px) {
+        .main-layout {
+          grid-template-columns: 500px 1fr;
+        }
+      }
+
+      .panel-card {
+        background: var(--card-bg);
+        border: 1.5px solid var(--border);
+        border-radius: var(--radius);
+        padding: clamp(15px, 3vw, 30px);
+        box-shadow: var(--shadow);
+        height: max-content;
+      }
+
+      .panel-card h2 {
+        font-size: clamp(16px, 3vw, 20px);
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--parchment);
+        color: var(--roast);
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      .form-group label {
+        display: block;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 6px;
+        color: var(--roast);
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 12px;
+        border: 1.5px solid var(--border);
+        border-radius: 10px;
+        background: #fff;
+        color: var(--text);
+        font-size: 14px;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+
+      .form-control:focus {
+        border-color: var(--caramel);
+      }
+
+      textarea.form-control {
+        resize: none;
+      }
+
+      .checkbox-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 15px 0;
+      }
+
+      .checkbox-group input {
+        width: 18px;
+        height: 18px;
+        accent-color: var(--caramel);
+      }
+
+      .btn {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 50px;
+        background: var(--roast);
+        color: #fff;
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+      }
+
+      .btn:hover {
+        background: var(--caramel);
+      }
+
+      .btn-danger {
+        background: var(--danger);
+      }
+
+      .btn-danger:hover {
+        background: #bd2424;
+      }
+
+      .btn-success {
+        background: var(--success);
+      }
+
+      .btn-success:hover {
+        background: #3a6347;
+      }
+
+      .products-list-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 15px;
+      }
+
+      @media (min-width: 310px) and (max-width: 400px) {
+        .products-list-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (min-width: 1400px) {
+        .products-list-grid {
+          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        }
+      }
+
+      @media (min-width: 2560px) {
+        .products-list-grid {
+          grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        }
+      }
+
+      .item-row {
+        background: var(--card-bg);
+        border: 1.5px solid var(--border);
+        border-radius: var(--radius);
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 12px;
+        box-shadow: var(--shadow);
+      }
+
+      .item-info h3 {
+        font-size: 16px;
+        color: var(--roast);
+      }
+
+      .item-info p {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+
+      .item-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: auto;
+      }
+
+      .btn-sm {
+        padding: 8px 12px;
+        font-size: 12px;
+        border-radius: 20px;
+        flex: 1;
+        min-width: 70px;
+      }
+
+      .status-toggle {
+        background: var(--success);
+      }
+
+      .status-toggle.off {
+        background: var(--muted);
+      }
+
+      .preview-img-container {
+        margin-top: 10px;
+        display: none;
+        text-align: center;
+      }
+
+      .preview-img-container img {
+        max-width: 100%;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+      }
+
+      .item-thumb {
+        width: 100%;
+        height: 125px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="login-screen">
+      <div class="login-box">
+        <h2>ورود به پنل مدیریت</h2>
+        <div class="form-group">
+          <input
+            type="password"
+            id="pass-input"
+            class="form-control"
+            placeholder="رمز عبور"
+          />
+        </div>
+        <button class="btn" onclick="checkAuth()">ورود</button>
+      </div>
+    </div>
+
+    <div class="admin-container" id="admin-main">
+      <header class="header">
+        <h1 id="panel-title"></h1>
+        <div class="header-actions">
+          <button
+            class="btn btn-sm btn-success"
+            style="width: auto; padding: 10px 20px"
+            onclick="exportToCSV()"
+          >
+            خروجی اکسل (CSV)
+          </button>
+          <button
+            class="btn btn-sm btn-danger"
+            style="width: auto; padding: 10px 20px"
+            onclick="logout()"
+          >
+            خروج
+          </button>
+        </div>
+      </header>
+
+      <div class="dashboard-stats">
+        <div class="stat-card">
+          <div class="stat-val" id="total-products-stat">0</div>
+          <div class="stat-label">تعداد کل محصولات</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val" id="active-products-stat">0</div>
+          <div class="stat-label">محصولات موجود</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">۱۸:۰۰</div>
+          <div class="stat-label">اوج شلوغی کافه</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">اسپرسو</div>
+          <div class="stat-label">پرفروش‌ترین ماه</div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <h3 style="font-size: 16px; margin-bottom: 15px; color: var(--roast)">
+          آمار بازدید ساعات روز
+        </h3>
+        <div class="bar-chart">
+          <div class="bar" style="height: 15%"><span>۰۸:۰۰</span></div>
+          <div class="bar" style="height: 30%"><span>۱۰:۰۰</span></div>
+          <div class="bar" style="height: 45%"><span>۱۲:۰۰</span></div>
+          <div class="bar" style="height: 35%"><span>۱۴:۰۰</span></div>
+          <div class="bar" style="height: 60%"><span>۱۶:۰۰</span></div>
+          <div class="bar" style="height: 100%"><span>۱۸:۰۰</span></div>
+          <div class="bar" style="height: 85%"><span>۲۰:۰۰</span></div>
+          <div class="bar" style="height: 50%"><span>۲۲:۰۰</span></div>
+        </div>
+      </div>
+
+      <div class="main-layout">
+        <div class="panel-card">
+          <h2 id="form-title">افزودن محصول جدید</h2>
+          <form id="product-form" onsubmit="saveProduct(event)">
+            <input type="hidden" id="edit-id" />
+            <div class="form-group">
+              <label>نام فارسی</label>
+              <input type="text" id="p-name" class="form-control" required />
+            </div>
+            <div class="form-group">
+              <label>نام انگلیسی</label>
+              <input type="text" id="p-name-en" class="form-control" />
+            </div>
+            <div class="form-group">
+              <label>دسته‌بندی</label>
+              <select id="p-category" class="form-control" required></select>
+            </div>
+            <div class="form-group">
+              <label>قیمت (تومان)</label>
+              <input type="number" id="p-price" class="form-control" required />
+            </div>
+            <div class="form-group">
+              <label>توضیحات</label>
+              <textarea id="p-desc" class="form-control" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <label>تصویر محصول</label>
+              <input
+                type="file"
+                id="p-image"
+                class="form-control"
+                accept="image/*"
+                onchange="handleImageUpload(this)"
+              />
+              <div class="preview-img-container" id="p-img-container">
+                <img id="p-img-preview" src="" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>کالری</label>
+              <input type="number" id="p-calories" class="form-control" />
+            </div>
+            <div class="checkbox-group">
+              <input type="checkbox" id="p-available" checked />
+              <label for="p-available">محصول موجود است</label>
+            </div>
+            <button type="submit" class="btn">ذخیره محصول</button>
+            <button
+              type="button"
+              class="btn"
+              style="
+                margin-top: 8px;
+                background: transparent;
+                color: var(--roast);
+                border: 1.5px solid var(--roast);
+              "
+              onclick="resetForm()"
+            >
+              انصراف
+            </button>
+          </form>
+        </div>
+
+        <div class="panel-card" style="width: 100%">
+          <h2>لیست محصولات منو</h2>
+          <div class="products-list-grid" id="admin-products-grid"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let localProducts = [];
+      if (typeof PRODUCTS !== "undefined") {
+        localProducts =
+          JSON.parse(localStorage.getItem("CAFE_PRODUCTS")) || PRODUCTS;
+      }
+      let currentImgBase64 = "";
+
+      function checkAuth() {
+        const pass = document.getElementById("pass-input").value;
+        if (pass === "admin") {
+          localStorage.setItem("admin_auth", "true");
+          showPanel();
+        } else {
+          alert("رمز عبور اشتباه است");
+        }
+      }
+
+      function showPanel() {
+        document.getElementById("login-screen").style.display = "none";
+        document.getElementById("admin-main").style.display = "block";
+        if (typeof CAFE_INFO !== "undefined") {
+          document.getElementById("panel-title").textContent =
+            "مدیریت منوی " + CAFE_INFO.name;
+        }
+        initFormSelect();
+        renderAdminProducts();
+        updateDashboardStats();
+      }
+
+      function logout() {
+        localStorage.removeItem("admin_auth");
+        window.location.reload();
+      }
+
+      function updateDashboardStats() {
+        document.getElementById("total-products-stat").textContent =
+          localProducts.length;
+        const activeCount = localProducts.filter(
+          (p) => p.available !== false
+        ).length;
+        document.getElementById("active-products-stat").textContent =
+          activeCount;
+      }
+
+      function initFormSelect() {
+        if (typeof CATEGORIES === "undefined") return;
+        const select = document.getElementById("p-category");
+        select.innerHTML = "";
+        CATEGORIES.filter((c) => c.id !== "all").forEach((c) => {
+          const opt = document.createElement("option");
+          opt.value = c.id;
+          opt.textContent = c.label;
+          select.appendChild(opt);
+        });
+      }
+
+      function handleImageUpload(input) {
+        const file = input.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            currentImgBase64 = e.target.result;
+            document.getElementById("p-img-preview").src = currentImgBase64;
+            document.getElementById("p-img-container").style.display = "block";
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+
+      function exportToCSV() {
+        let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
+        csvContent +=
+          "ID,Name,English Name,Category,Price,Calories,Available\n";
+        localProducts.forEach((p) => {
+          const name = p.name ? p.name.replace(/"/g, '""') : "";
+          const nameEn = p.name_en ? p.name_en.replace(/"/g, '""') : "";
+          const cat = p.category ? p.category.replace(/"/g, '""') : "";
+          const avail = p.available !== false ? "Yes" : "No";
+          const cal = p.calories || "";
+
+          let row = `${p.id},"${name}","${nameEn}","${cat}",${p.price},${cal},${avail}`;
+          csvContent += row + "\n";
+        });
+
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "cafe_menu_export.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+
+      function renderAdminProducts() {
+        const grid = document.getElementById("admin-products-grid");
+        grid.innerHTML = "";
+        localProducts.forEach((p) => {
+          const card = document.createElement("div");
+          card.className = "item-row";
+          let imgTag = "";
+          if (p.image) {
+            imgTag = `<img src="${p.image}" class="item-thumb">`;
+          }
+
+          let catLabel = p.category;
+          if (typeof CATEGORIES !== "undefined") {
+            const foundCat = CATEGORIES.find((c) => c.id === p.category);
+            if (foundCat) catLabel = foundCat.label;
+          }
+
+          card.innerHTML = `
+            ${imgTag}
+            <div class="item-info">
+              <h3>${p.name}</h3>
+              <p>${p.price.toLocaleString("fa-IR")} تومان</p>
+              <p style="font-size:11px; color:var(--caramel)">دسته: ${catLabel}</p>
+            </div>
+            <div class="item-actions">
+              <button class="btn btn-sm status-toggle ${
+                p.available !== false ? "" : "off"
+              }" onclick="toggleAvailable(${p.id})">
+                ${p.available !== false ? "موجود" : "ناموجود"}
+              </button>
+              <button class="btn btn-sm" style="background:var(--caramel);" onclick="editProduct(${
+                p.id
+              })">ویرایش</button>
+              <button class="btn btn-sm btn-danger" onclick="deleteProduct(${
+                p.id
+              })">حذف</button>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+      }
+
+      function toggleAvailable(id) {
+        localProducts = localProducts.map((p) =>
+          p.id === id
+            ? { ...p, available: p.available === false ? true : false }
+            : p
+        );
+        localStorage.setItem("CAFE_PRODUCTS", JSON.stringify(localProducts));
+        renderAdminProducts();
+        updateDashboardStats();
+      }
+
+      function deleteProduct(id) {
+        if (confirm("آیا از حذف این آیتم مطمئن هستید؟")) {
+          localProducts = localProducts.filter((p) => p.id !== id);
+          localStorage.setItem("CAFE_PRODUCTS", JSON.stringify(localProducts));
+          renderAdminProducts();
+          updateDashboardStats();
+        }
+      }
+
+      function editProduct(id) {
+        const p = localProducts.find((x) => x.id === id);
+        if (!p) return;
+        document.getElementById("edit-id").value = p.id;
+        document.getElementById("p-name").value = p.name || "";
+        document.getElementById("p-name-en").value = p.name_en || "";
+        document.getElementById("p-category").value = p.category || "";
+        document.getElementById("p-price").value = p.price || "";
+        document.getElementById("p-desc").value = p.description || "";
+        document.getElementById("p-calories").value = p.calories || "";
+        document.getElementById("p-available").checked = p.available !== false;
+        document.getElementById("form-title").textContent =
+          "ویرایش محصول: " + p.name;
+        if (p.image) {
+          currentImgBase64 = p.image;
+          document.getElementById("p-img-preview").src = currentImgBase64;
+          document.getElementById("p-img-container").style.display = "block";
+        } else {
+          currentImgBase64 = "";
+          document.getElementById("p-img-container").style.display = "none";
+        }
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function saveProduct(e) {
+        e.preventDefault();
+        const idVal = document.getElementById("edit-id").value;
+        const productData = {
+          name: document.getElementById("p-name").value,
+          name_en: document.getElementById("p-name-en").value,
+          category: document.getElementById("p-category").value,
+          price: Number(document.getElementById("p-price").value),
+          description: document.getElementById("p-desc").value,
+          calories:
+            Number(document.getElementById("p-calories").value) || undefined,
+          available: document.getElementById("p-available").checked,
+          image: currentImgBase64 || undefined,
+          badges: [],
+          options: [],
+        };
+
+        if (idVal) {
+          localProducts = localProducts.map((p) =>
+            p.id === Number(idVal) ? { ...p, ...productData } : p
+          );
+        } else {
+          productData.id = Date.now();
+          localProducts.push(productData);
+        }
+
+        localStorage.setItem("CAFE_PRODUCTS", JSON.stringify(localProducts));
+        resetForm();
+        renderAdminProducts();
+        updateDashboardStats();
+      }
+
+      function resetForm() {
+        document.getElementById("product-form").reset();
+        document.getElementById("edit-id").value = "";
+        document.getElementById("form-title").textContent = "افزودن محصول جدید";
+        currentImgBase64 = "";
+        document.getElementById("p-img-container").style.display = "none";
+      }
+
+      if (localStorage.getItem("admin_auth") === "true") {
+        showPanel();
+      }
+    </script>
+  </body>
+</html>

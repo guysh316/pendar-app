@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تولید QR Code منو</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="data.js"></script>
+    <style>
+      @font-face {
+        font-family: "Peyda";
+        src: url("./assets/fonts/Peyda-Regular.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Peyda", "Inter", sans-serif;
+      }
+
+      :root {
+        --cream: #f9f4ed;
+        --roast: #2b1a0e;
+        --caramel: #c47b2b;
+        --card-bg: #fffdf9;
+        --border: #ddd0bc;
+        --shadow: 0 12px 48px rgba(43, 26, 14, 0.16);
+      }
+
+      body {
+        background: var(--cream);
+        color: var(--roast);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 15px;
+      }
+
+      .qr-wrapper {
+        background: var(--card-bg);
+        padding: clamp(20px, 5vw, 40px);
+        border-radius: 24px;
+        box-shadow: var(--shadow);
+        border: 1.5px solid var(--border);
+        text-align: center;
+        width: 100%;
+        max-width: 450px;
+      }
+
+      @media (min-width: 1400px) {
+        .qr-wrapper {
+          max-width: 500px;
+        }
+      }
+
+      .brand-title {
+        font-size: clamp(20px, 4vw, 26px);
+        font-weight: 900;
+        color: var(--roast);
+        margin-bottom: 8px;
+      }
+
+      .brand-slogan {
+        font-size: clamp(12px, 2.5vw, 14px);
+        color: var(--caramel);
+        margin-bottom: 32px;
+        font-weight: 600;
+      }
+
+      #qrcode {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto 32px;
+        background: #ffffff;
+        padding: clamp(10px, 3vw, 20px);
+        border-radius: 20px;
+        border: 2px solid var(--border);
+        width: max-content;
+        max-width: 100%;
+      }
+
+      #qrcode img {
+        max-width: 100%;
+        height: auto;
+      }
+
+      .action-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .btn {
+        background: var(--roast);
+        color: #fff;
+        border: none;
+        padding: 14px 24px;
+        border-radius: 50px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+      }
+
+      .btn:hover {
+        background: var(--caramel);
+        transform: translateY(-2px);
+      }
+
+      .btn-outline {
+        background: transparent;
+        color: var(--roast);
+        border: 2px solid var(--roast);
+      }
+
+      .btn-outline:hover {
+        background: var(--roast);
+        color: #fff;
+      }
+
+      @media print {
+        body {
+          background: #fff;
+          display: block;
+        }
+        .qr-wrapper {
+          box-shadow: none;
+          border: none;
+          padding: 0;
+          margin: 0 auto;
+          max-width: 100%;
+        }
+        .action-buttons {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="qr-wrapper">
+      <h1 class="brand-title" id="cafe-name-display"></h1>
+      <p class="brand-slogan" id="cafe-slogan-display"></p>
+
+      <div id="qrcode"></div>
+
+      <div class="action-buttons">
+        <button class="btn" id="download-btn">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          دانلود کیوآر کد
+        </button>
+        <button class="btn btn-outline" id="print-btn">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="6 9 6 2 18 2 18 9"></polyline>
+            <path
+              d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"
+            ></path>
+            <rect x="6" y="14" width="12" height="8"></rect>
+          </svg>
+          چاپ مستقیم
+        </button>
+      </div>
+    </div>
+
+    <script>
+      document.getElementById("cafe-name-display").textContent =
+        "منوی دیجیتال " + CAFE_INFO.name;
+      document.getElementById("cafe-slogan-display").textContent =
+        CAFE_INFO.slogan;
+
+      const targetUrl =
+        CAFE_INFO.website || window.location.origin + "/index.html";
+      const qrContainer = document.getElementById("qrcode");
+
+      let qrSize = window.innerWidth < 360 ? 200 : 260;
+
+      new QRCode(qrContainer, {
+        text: targetUrl,
+        width: qrSize,
+        height: qrSize,
+        colorDark: "#2b1a0e",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H,
+      });
+
+      document.getElementById("print-btn").addEventListener("click", () => {
+        window.print();
+      });
+
+      document.getElementById("download-btn").addEventListener("click", () => {
+        const qrImage = qrContainer.querySelector("img");
+        if (qrImage && qrImage.getAttribute("src")) {
+          triggerDownload(qrImage.getAttribute("src"));
+        } else {
+          const qrCanvas = qrContainer.querySelector("canvas");
+          if (qrCanvas) {
+            triggerDownload(qrCanvas.toDataURL("image/png"));
+          }
+        }
+      });
+
+      function triggerDownload(dataUrl) {
+        const a = document.createElement("a");
+        a.href = dataUrl;
+        a.download = "cafe-menu-qr.png";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
+    </script>
+  </body>
+</html>
